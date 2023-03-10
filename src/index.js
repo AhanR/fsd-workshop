@@ -15,6 +15,9 @@ router.post("/", upload.single('file') ,(req, res, next) => {
     db.run("INSERT INTO File VALUES ('"+req.file.filename+"','"+req.file.originalname+"')");
     res.json({fileId : req.file.filename, filename: req.file.originalname})
 });
+router.get("/download/:id", (req, res, next)=> {
+    
+})
 router.use(express.static(process.cwd()+'/public'));
 
 http.createServer(router).listen(3000, ()=> {
