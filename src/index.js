@@ -13,7 +13,7 @@ router.use(bodyParser.json());
 router.post("/", upload.single('file') ,(req, res, next) => {
     console.log(req.file.filename)
     db.run("INSERT INTO File VALUES ('"+req.file.filename+"','"+req.file.originalname+"')");
-    res.json({fileId : req.file.filename, filename: req.file.originalname})
+    res.send("<a href = '/download/"+req.file.filename+"'>"+req.file.filename+" download file here</a>");
 });
 router.get("/download/:id", async (req, res, next)=> {
     let name = null;
@@ -22,7 +22,7 @@ router.get("/download/:id", async (req, res, next)=> {
         name = row.FN;
         if(name)
         res.download('/files/'+req.params.id,"test.txt",{root: process.cwd()});
-        else res.json({message:"invalid image"});
+        else res.send('<h2>Invalid File Id</h2>');
 
     });
     console.log(name);
