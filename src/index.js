@@ -19,13 +19,11 @@ router.get("/download/:id", async (req, res, next)=> {
     let name = null;
     await db.get("SELECT file_name as FN FROM File WHERE file_id = '"+req.params.id+"'", (e,row)=>{
         console.log(row.FN);
-        name = row.FN;
-        if(name)
-        res.download('/files/'+req.params.id,"test.txt",{root: process.cwd()});
+        if(row.FN)
+        res.download('/files/'+req.params.id,row.FN,{root: process.cwd()});
         else res.send('<h2>Invalid File Id</h2>');
 
     });
-    console.log(name);
 })
 router.use(express.static(process.cwd()+'/public'));
 
