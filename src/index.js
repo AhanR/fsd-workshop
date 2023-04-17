@@ -16,10 +16,11 @@ router.post("/", upload.single('file') ,(req, res, next) => {
     res.send("<a href = '/download/"+req.file.filename+"'>"+req.file.filename+" download file here</a>");
 });
 router.get("/download/:id", async (req, res, next)=> {
-    let name = null;
-    await db.get("SELECT file_name as FN FROM File WHERE file_id = '"+req.params.id+"'", (e,row)=>{
-        console.log(row.FN);
-        if(row.FN)
+    // let name = null;
+    await db.get("SELECT file_name as FN, file_id as Fid FROM File WHERE file_id = '"+req.params.id+"'", (e,row)=>{
+        // console.log(row.FN);
+        console.log(row);
+        if(row !== undefined)
         res.download('/files/'+req.params.id,row.FN,{root: process.cwd()});
         else res.send('<h2>Invalid File Id</h2>');
 
